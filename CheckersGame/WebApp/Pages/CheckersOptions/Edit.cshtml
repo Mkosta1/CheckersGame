@@ -1,0 +1,55 @@
+@page
+@model WebApp.Pages_CheckersOptions.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>CheckersOption</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CheckersOption.Id" />
+            <div class="form-group">
+                <label asp-for="CheckersOption.Name" class="control-label"></label>
+                <input asp-for="CheckersOption.Name" class="form-control" />
+                <span asp-validation-for="CheckersOption.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.Width" class="control-label"></label>
+                <input asp-for="CheckersOption.Width" class="form-control" />
+                <span asp-validation-for="CheckersOption.Width" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.Height" class="control-label"></label>
+                <input asp-for="CheckersOption.Height" class="form-control" />
+                <span asp-validation-for="CheckersOption.Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CheckersOption.RandomMoves" class="control-label"></label>
+                <input asp-for="CheckersOption.RandomMoves" class="form-control" />
+                <span asp-validation-for="CheckersOption.RandomMoves" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="CheckersOption.WhiteStart" /> @Html.DisplayNameFor(model => model.CheckersOption.WhiteStart)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

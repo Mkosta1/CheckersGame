@@ -1,0 +1,199 @@
+﻿@page
+@using Domain
+@model Play
+
+
+
+@if (Model.Brain.CheckGameState())
+{
+
+    <h1>Playing as: @GetPlayerName()</h1>
+    <h2>Your status: @getPlayerMoveStatus()</h2>
+}
+@if (Model.Brain.CheckGameState() == false)
+{
+    <h2>Winner is @(Model.Brain.GetWinner() ? $"{Model.CheckerGame.Player1Name} - White" : $"{Model.CheckerGame.Player2Name} - Black")</h2>
+    
+}
+
+
+
+
+@{
+    var boardCopy = Model.GameBoard;
+    if (boardCopy == null)
+    {
+        boardCopy = Model.Brain.GetBoard();
+    }
+    
+}
+
+
+<table class="table table-bordered game-table ">
+    @for (var y = 0; y < boardCopy[0].Length; y++)
+    {
+        <tr>
+            
+            @for (var x = 0; x < boardCopy.Length; x++)
+            {
+                <td class="game-table-cell @GetCellBgrClass(x, y) @GetTakingButton(x, y)"
+                    @if (Model.StartMove && isPlayerMove())
+                    {
+                        <text>
+                            onclick="window.location = '/CheckerGame/Play?id=@Model.CheckerGame.Id&playerNo=@Model.PlayerNo&xStart=@x&yStart=@y'"
+                        </text>
+                    }
+                    else if (true && isPlayerMove())
+                    
+                    {
+                        <text>
+                            onclick="window.location = '/CheckerGame/Play?id=@Model.CheckerGame.Id&playerNo=@Model.PlayerNo&xStart=@Model.XStart&yStart=@Model.YStart&xFinish=@x&yFinish=@y'"
+                        </text>
+
+                    }>
+                    
+
+                    @if (boardCopy[x][y] == EGamePiece.Black)
+                    {
+                        <div class="black"></div>
+                    }
+                    @if (boardCopy[x][y] == EGamePiece.White)
+                    {
+                        <div class="white"></div>
+                    }
+                    @if (boardCopy[x][y] == EGamePiece.WhiteQueen)
+                    {
+                        <div class="king-piece">&#11036;</div>
+                    }
+                    @if (boardCopy[x][y] == EGamePiece.BlackQueen)
+                    {
+                        <div class="king-piece">&#11035;</div>
+                    }
+                    @if (boardCopy[x][y] == null)
+                    {
+                        <div></div>
+                    }
+                    &nbsp;
+                </td>
+            }
+        </tr>
+    }
+</table>
+
+
+
+
+@section Scripts
+{
+    @if ((!isPlayerMove() || IsAiMove()) && @Model.Brain.CheckGameState())
+    {
+        <script>
+    
+            setTimeout(() => {
+                
+                window.location = '/CheckerGame/Play?id=@Model.CheckerGame.Id&playerNo=@Model.PlayerNo&checkAi=true';
+                
+                },
+                1000);
+    
+        </script>
+    }
+
+}
+
+@functions
+{
+
+    
+    
+    bool IsAiMove()
+    {
+        if (Model.Brain.NextMoveByBlack() && Model.PlayerNo == 1 && Model.CheckerGame.Player2Type == EPlayerType.Ai)
+        {
+            return true;
+        }
+        
+        if (!Model.Brain.NextMoveByBlack() && Model.PlayerNo == 0 && Model.CheckerGame.Player1Type == EPlayerType.Ai)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    
+
+    bool isPlayerMove()
+    {
+        if (Model.Brain.NextMoveByBlack() && Model.PlayerNo == 1)
+        {
+            return true;
+        }
+        if (!Model.Brain.NextMoveByBlack() && Model.PlayerNo == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+    string getPlayerMoveStatus()
+    {
+        return isPlayerMove() ? "Make a move!" : "Please wait for opponents move!";
+    } 
+
+    string GetPlayerName()
+    {
+        if (Model.PlayerNo == 0)
+        {
+            return Model.CheckerGame.Player1Name + " - white";
+        }
+        return Model.CheckerGame.Player2Name + " - black";
+        
+    }
+    
+    
+    
+    
+    string GetCellBgrClass(int x, int y)
+    {
+        
+        if (x % 2 == 0)
+        {
+            return (y % 2 != 0) ?
+                "game-table-cell-black" : "game-table-cell-white";
+        }
+        return (y % 2 == 0) ?
+            "game-table-cell-black" : "game-table-cell-white";
+    }
+
+    string? GetTakingButton(int x , int y)
+    {
+        @if (Model.Brain.Stepcheckerhecker())
+        {
+            @if (Model.Brain.State.NextMoveByBlack == false && isPlayerMove())
+            {
+                @foreach (List<int> element in Model.Brain.StepCheckerWhite())
+                {
+                    if (x == element[0] && y == element[1])
+                    {
+                        return "take";
+                    }
+                }
+            }
+            @if (Model.Brain.State.NextMoveByBlack && isPlayerMove())
+            {
+                @foreach (List<int> element in Model.Brain.StepCheckerBlack())
+                {
+                    if (x == element[0] && y == element[1])
+                    {
+                        return "take";
+                    }
+                }
+            }
+        }
+        return null;
+    }
+}
+
+
+

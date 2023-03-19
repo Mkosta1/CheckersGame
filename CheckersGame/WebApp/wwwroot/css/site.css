@@ -1,0 +1,106 @@
+html {
+  
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+
+.form-group{
+  font-weight: bold;
+  color: black;
+}
+
+.table{
+  font-weight: bold;
+  color: black;
+}
+
+
+.bottomtext{
+  color: black;
+}
+
+
+body {
+  margin-bottom: 60px;
+  background-image: url("pexels-madison-inouye-1831234.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+
+.game-table{
+  width: initial;
+}
+
+.game-table-cell{
+  color: black;
+  width: 90px;
+  height: 90px;
+}
+
+.game-table-cell-black {
+  background-color: #492c0b !important;
+} 
+
+.game-table-cell-white {
+  background-color: #c99e64 !important;
+}
+
+.front-picture{
+  height: 120px;
+  width: 200px;
+}
+
+.take{
+  background-color: #c53030 !important;
+}
+
+.black {
+  height: 40px;
+  position: relative;
+  width: 40px;
+  background: radial-gradient(
+          ellipse at center,
+          rgb(0, 0, 0) 0%,
+          rgb(0, 0, 0) 70%,
+          rgba(0, 0, 0, 0) 75%
+  );
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+
+.white {
+  height: 40px;
+  position: relative;
+  width: 40px;
+  background: radial-gradient(
+          ellipse at center,
+          rgb(255, 255, 255) 0%,
+          rgb(255, 255, 255) 70%,
+          rgba(0, 0, 0, 0) 75%
+  );
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.king-piece{
+  font-size: 30px;
+  height: 40px;
+  position: relative;
+  width: 40px;
+  margin-left: 10px;
+  margin-top: 10px;
+}
